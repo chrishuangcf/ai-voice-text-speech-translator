@@ -1,0 +1,106 @@
+services:
+  whisper-backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: whisper-backend-prod
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./models:/app/models
+      - ./certs:/app/certs:ro
+    environment:
+      - FLASK_ENV=production
+      - DEBUG=False
+      - TRANSLATION_SERVICE_URL=http://translation-service:6000
+      - TTS_SERVICE_URL=http://tts-service:7000
+    env_file:
+      - .env
+    depends_on:
+      - translation-service
+      - tts-service
+    networks:
+      - whisper-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  translation-service:
+    build:
+      context: .
+      dockerfile: translation-service/Dockerfile
+    container_name: translation-service-prod
+    ports:
+      - "6000:6000"
+    environment:
+      - FLASK_ENV=production
+      - DEBUG=False
+      - PORT=6000
+    networks:
+      - whisper-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  tts-service:
+    build:
+      context: .
+      dockerfile: tts-service/Dockerfile
+    container_name: tts-service-prod
+    ports:
+      - "7000:7000"
+      - "7443:7443"
+    volumes:
+      - ./certs:/app/certs:ro
+      - whisper-audio-output:/app/output
+    environment:
+      - FLASK_ENV=production
+      - DEBUG=False
+      - PORT=7000
+      - PIPER_MODELS_PATH=/app/models
+      - SSL_ENABLED=false
+      - SSL_CERT_PATH=/app/certs/cert.pem
+      - SSL_KEY_PATH=/app/certs/key.pem
+    networks:
+      - whisper-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+      
+  whisper-frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: whisper-frontend-prod
+    ports:
+      - "3000:80"
+      - "3443:443"
+    volumes:
+      - ./certs:/etc/ssl/certs:ro
+    depends_on:
+      - whisper-backend
+      - translation-service
+      - tts-service
+    networks:
+      - whisper-network
+    restart: unless-stopped
+
+networks:
+  whisper-network:
+    driver: bridge
+
+volumes:
+  whisper-models:
+  whisper-uploads:
+  whisper-audio-output:

@@ -1,0 +1,6 @@
+flask==2.3.3
+flask-cors==4.0.0
+googletrans==3.1.0-alpha
+gunicorn==21.2.0
+urllib3==1.26.18
+requests==2.31.0

@@ -1,0 +1,4 @@
+TTS==0.22.0
+librosa
+scipy
+gtts==2.3.2

@@ -1,0 +1,16 @@
+flask==2.3.3
+flask-cors==4.0.0
+openai-whisper==20231117
+torch==2.1.0
+torchaudio==2.1.0
+numpy==1.24.3
+scipy==1.11.3
+ffmpeg-python==0.2.0
+Werkzeug==2.3.7
+gunicorn==21.2.0
+pyOpenSSL==23.3.0
+cryptography==41.0.7
+# SSL libraries for corporate certificate handling
+certifi>=2023.7.22
+requests[security]>=2.31.0
+urllib3[secure]>=2.0.4

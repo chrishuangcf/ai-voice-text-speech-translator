@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisper Voice-to-Text Service</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎵 Whisper Voice-to-Text</h1>
+            <p>Transform your audio into beautiful text with our magenta-powered AI ✨</p>
+        </header>
+
+        <main class="main">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">🎶</div>
+                        <h3>Drop your magical audio here</h3>
+                        <p>or <button class="browse-btn" type="button" id="browseBtn">browse files</button></p>
+                        <p class="file-info">Supports: MP3, WAV, MP4, M4A, OGG, FLAC (Max: 50MB) 💜</p>
+                        <p class="file-info" style="font-size: 0.85rem; color: #d81b60; margin-top: 8px;">
+                            🌍 Supports 90+ languages including Spanish, French, Chinese, and more!
+                        </p>
+                    </div>
+                    <input type="file" id="fileInput" accept=".mp3,.wav,.mp4,.m4a,.ogg,.flac,.webm" hidden>
+                </div>
+
+                <!-- File Preview -->
+                <div class="file-preview" id="filePreview" style="display: none;">
+                    <div class="file-info">
+                        <span class="file-name" id="fileName"></span>
+                        <span class="file-size" id="fileSize"></span>
+                        <button class="remove-file" id="removeFile">✕</button>
+                    </div>
+                    <audio id="audioPreview" controls style="width: 100%; margin-top: 10px;"></audio>
+                </div>
+            </section>
+
+            <!-- Options Section -->
+            <section class="options" id="options" style="display: none;">
+                <div class="form-group">
+                    <label for="languageSelect">Language:</label>
+                    <select id="languageSelect">
+                        <option value="">Auto-detect</option>
+                        <!-- Major Languages - Full Whisper + TTS Support -->
+                        <option value="en">🇺🇸 English</option>
+                        <option value="es">🇪🇸 Spanish</option>
+                        <option value="fr">🇫🇷 French</option>
+                        <option value="de">🇩🇪 German</option>
+                        <option value="it">🇮🇹 Italian</option>
+                        <option value="pt">🇵🇹 Portuguese</option>
+                        <option value="ru">🇷🇺 Russian</option>
+                        <option value="ja">🇯🇵 Japanese</option>
+                        <option value="ko">🇰🇷 Korean</option>
+                        <option value="zh">🇨🇳 Chinese (Mandarin)</option>
+                        
+                        <!-- Extended Languages - Whisper + TTS Support -->
+                        <option value="hi">🇮🇳 Hindi</option>
+                        <option value="ar">🇸🇦 Arabic</option>
+                        <option value="tr">🇹🇷 Turkish</option>
+                        <option value="nl">🇳🇱 Dutch</option>
+                        <option value="pl">🇵🇱 Polish</option>
+                        <option value="sv">🇸🇪 Swedish</option>
+                        <option value="da">🇩🇰 Danish</option>
+                        <option value="no">🇳🇴 Norwegian</option>
+                        <option value="fi">🇫🇮 Finnish</option>
+                        <option value="th">🇹🇭 Thai</option>
+                        
+                        <!-- Additional Whisper + TTS Languages -->
+                        <option value="uk">🇺🇦 Ukrainian</option>
+                        <option value="cs">🇨🇿 Czech</option>
+                        <option value="he">🇮🇱 Hebrew</option>
+                        <option value="hu">🇭🇺 Hungarian</option>
+                        <option value="ro">🇷🇴 Romanian</option>
+                        <option value="sk">🇸🇰 Slovak</option>
+                        <option value="bg">🇧🇬 Bulgarian</option>
+                        <option value="hr">🇭🇷 Croatian</option>
+                        <option value="ca">🇪🇸 Catalan</option>
+                        <option value="vi">🇻🇳 Vietnamese</option>
+                        
+                        <!-- Asian Languages -->
+                        <option value="id">🇮🇩 Indonesian</option>
+                        <option value="ms">🇲🇾 Malay</option>
+                        <option value="tl">🇵🇭 Filipino</option>
+                        <option value="bn">🇧🇩 Bengali</option>
+                        <option value="ta">🇮🇳 Tamil</option>
+                        <option value="te">🇮🇳 Telugu</option>
+                        <option value="mr">🇮🇳 Marathi</option>
+                        <option value="gu">🇮🇳 Gujarati</option>
+                        <option value="kn">🇮🇳 Kannada</option>
+                        <option value="ml">🇮🇳 Malayalam</option>
+                        
+                        <!-- European Languages -->
+                        <option value="et">🇪🇪 Estonian</option>
+                        <option value="lv">🇱🇻 Latvian</option>
+                        <option value="lt">🇱🇹 Lithuanian</option>
+                        <option value="sl">🇸🇮 Slovenian</option>
+                        <option value="mk">🇲🇰 Macedonian</option>
+                        <option value="mt">🇲🇹 Maltese</option>
+                        <option value="is">🇮🇸 Icelandic</option>
+                        <option value="ga">🇮🇪 Irish</option>
+                        <option value="cy">🏴 Welsh</option>
+                        <option value="eu">🇪🇸 Basque</option>
+                        
+                        <!-- African & Middle Eastern -->
+                        <option value="sw">🇹🇿 Swahili</option>
+                        <option value="fa">🇮🇷 Persian (Farsi)</option>
+                        <option value="ur">🇵🇰 Urdu</option>
+                        <option value="af">🇿🇦 Afrikaans</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="taskSelect">Task:</label>
+                    <select id="taskSelect">
+                        <option value="transcribe">Transcribe</option>
+                        <option value="translate">Translate</option>
+                        <option value="whisper_translate">Whisper Translate</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="translateToGroup" style="display: none;">
+                    <label for="translateToSelect">Translate to:</label>
+                    <select id="translateToSelect">
+                        <!-- Major Languages - Full TTS Support -->
+                        <option value="en">🇺🇸 English</option>
+                        <option value="es">🇪🇸 Spanish</option>
+                        <option value="fr">🇫🇷 French</option>
+                        <option value="de">🇩🇪 German</option>
+                        <option value="it">🇮🇹 Italian</option>
+                        <option value="pt">🇵🇹 Portuguese</option>
+                        <option value="ru">🇷🇺 Russian</option>
+                        <option value="ja">🇯🇵 Japanese</option>
+                        <option value="ko">🇰🇷 Korean</option>
+                        <option value="zh">🇨🇳 Chinese (Mandarin)</option>
+                        
+                        <!-- Extended Languages - TTS Support -->
+                        <option value="hi">🇮🇳 Hindi</option>
+                        <option value="ar">🇸🇦 Arabic</option>
+                        <option value="tr">🇹🇷 Turkish</option>
+                        <option value="nl">🇳🇱 Dutch</option>
+                        <option value="pl">🇵🇱 Polish</option>
+                        <option value="sv">🇸🇪 Swedish</option>
+                        <option value="da">🇩🇰 Danish</option>
+                        <option value="no">🇳🇴 Norwegian</option>
+                        <option value="fi">🇫🇮 Finnish</option>
+                        <option value="th">🇹🇭 Thai</option>
+                        
+                        <!-- Selected High-Quality TTS Languages -->
+                        <option value="uk">🇺🇦 Ukrainian</option>
+                        <option value="cs">🇨🇿 Czech</option>
+                        <option value="he">🇮🇱 Hebrew</option>
+                        <option value="hu">🇭🇺 Hungarian</option>
+                        <option value="ro">🇷🇴 Romanian</option>
+                        <option value="sk">🇸🇰 Slovak</option>
+                        <option value="bg">🇧🇬 Bulgarian</option>
+                        <option value="hr">🇭🇷 Croatian</option>
+                        <option value="ca">🇪🇸 Catalan</option>
+                        <option value="vi">🇻🇳 Vietnamese</option>
+                        
+                        <!-- Asian Languages with TTS -->
+                        <option value="id">🇮🇩 Indonesian</option>
+                        <option value="ms">🇲🇾 Malay</option>
+                        <option value="tl">🇵🇭 Filipino</option>
+                        <option value="bn">🇧🇩 Bengali</option>
+                        <option value="ta">🇮🇳 Tamil</option>
+                        <option value="te">🇮🇳 Telugu</option>
+                        <option value="mr">🇮🇳 Marathi</option>
+                        <option value="gu">🇮🇳 Gujarati</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button id="transcribeBtn" class="btn btn-primary" disabled>
+                        🎯 Start Processing
+                    </button>
+                </div>
+            </section>
+
+            <!-- Progress Section -->
+            <section class="progress-section" id="progressSection" style="display: none;">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Processing...</div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="section" style="display: none;">
+                <div class="results-header">
+                    <h3>✨ Transcription Results</h3>
+                    <div class="results-actions">
+                        <button class="copy-btn" id="copyBtn">📋 Copy</button>
+                        <button class="download-btn" id="downloadBtn">💾 Download</button>
+                        <button class="new-btn" id="newBtn">🔄 New</button>
+                    </div>
+                </div>
+                <div class="results-content">
+                    <div class="result-meta" id="resultMeta">
+                        <div class="meta-item">
+                            <strong>Language:</strong> <span id="detectedLanguage">-</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Model:</strong> <span id="modelInfo">-</span>
+                        </div>
+                        <div class="meta-item">
+                            <strong>Task:</strong> <span id="taskInfo">-</span>
+                        </div>
+                    </div>
+                    <div class="result-text" id="resultText"></div>
+                    <div class="result-segments" id="resultSegments" style="display: none;">
+                        <h4>Detailed Segments:</h4>
+                        <div id="segmentsList"></div>
+                    </div>
+                </div>
+
+                <!-- Quick Action Buttons -->
+                <div id="quickActions" class="quick-actions" style="display: none;">
+                    <button id="speakTranscriptBtn" class="btn btn-secondary">
+                        🔊 Speak Transcript
+                    </button>
+                </div>
+            </div>
+
+            <!-- TTS Section -->
+            <div id="ttsSection" class="section" style="display: none;">
+                <div class="container">
+                    <div id="ttsResults" class="tts-results">
+                        <!-- Audio player will appear here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <div class="status-content">
+                <!-- Backend Service Status -->
+                <div class="service-status">
+                    <span class="status-indicator" id="statusIndicator">🔄</span>
+                    <span class="status-text" id="statusText">Checking STT...</span>
+                </div>
+                
+                <!-- TTS Service Status -->
+                <div class="service-status">
+                    <span class="status-indicator" id="ttsStatusIndicator">🔄</span>
+                    <span class="status-text" id="ttsStatusText">Checking TTS...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast" id="toast" style="display: none;">
+            <span class="toast-message" id="toastMessage"></span>
+        </div>
+
+        <!-- Error Modal -->
+        <div class="modal" id="errorModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>❌ Error</h3>
+                    <button class="modal-close" id="modalClose">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-primary" id="modalOk">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load scripts in the correct order -->
+    <script src="js/api.js" type="module"></script>
+    <script src="js/audio.js" type="module"></script>
+    <script src="js/tts.js" type="module"></script>
+    <script src="js/components/LanguageSelect.js" type="module"></script>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>

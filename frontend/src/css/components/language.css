@@ -1,0 +1,100 @@
+/* Language Select Components */
+.language-select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    margin: 4px 0;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.language-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.language-select:hover {
+    border-color: #999;
+}
+
+.source-select {
+    width: 240px;
+    font-weight: 500;
+}
+
+.target-select {
+    width: 140px;
+    background: #f8f9fa;
+    font-family: monospace;
+    font-size: 13px;
+}
+
+/* Flag and text styling */
+.language-select option {
+    padding: 6px 8px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.source-select option {
+    font-weight: normal;
+}
+
+.target-select option {
+    font-family: monospace;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.translate-to-group {
+    margin-top: 12px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
+}
+
+.translate-to-group label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .source-select {
+        width: 100%;
+        max-width: 240px;
+    }
+    
+    .target-select {
+        width: 120px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .language-select {
+        background: #2d3748;
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .target-select {
+        background: #1a202c;
+    }
+    
+    .translate-to-group {
+        background: #2d3748;
+        border-color: #4a5568;
+    }
+    
+    .translate-to-group label {
+        color: #e2e8f0;
+    }
+}
